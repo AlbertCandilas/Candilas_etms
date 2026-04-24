@@ -6,25 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->id();
-
-            $table->string('employee_no')->unique();
+            $table->id(); 
             $table->string('name');
-            $table->string('department');
-            $table->string('position');
-
-            // IMPORTANT FIX (this solves your error)
-            $table->decimal('basic_salary', 10, 2)->default(0);
-
-            $table->string('status')->default('active');
-
+            $table->string('position'); 
+            $table->foreignId('department_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('employees');

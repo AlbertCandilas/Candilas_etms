@@ -2,19 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    use HasFactory;
+    protected $fillable = ['name', 'position', 'department_id'];
 
-    // Nililista rito ang mga columns na pwede nating sulatan/i-save
-    protected $fillable = [
-        'employee_no',
-        'name',
-        'department',
-        'position',
-        'salary'
-    ];
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+    public function attendanceRecords()
+    {
+        return $this->hasMany(AttendanceRecord::class);
+    }
+
+    public function leaveRequests()
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
 }
