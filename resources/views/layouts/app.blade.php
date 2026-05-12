@@ -31,6 +31,12 @@
             <hr class="border-white/10 mx-4 mb-4">
 
             <nav class="flex-1 px-4 space-y-2">
+                <a href="{{ route('dashboard') }}" 
+                    class="flex items-center gap-3 p-3 hover:bg-white/10 transition-all rounded-xl {{ request()->routeIs('dashboard') ? 'active-link' : '' }}">
+                    <i class="bi bi-grid text-lg"></i>
+                    <span class="text-sm font-semibold">Dashboard</span>
+                </a>
+
                 <a href="{{ route('employees.index') }}" 
                    class="flex items-center gap-3 p-3 hover:bg-white/10 transition-all rounded-xl {{ request()->routeIs('employees.*') ? 'active-link' : '' }}">
                     <i class="bi bi-people text-lg"></i>

@@ -12,6 +12,7 @@ use App\Http\Controllers\AttendanceStatusController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\DashboardController;
 
 // Public Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -24,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('employees.index');
     });
 
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('employees', EmployeeController::class);
     Route::resource('attendance', AttendanceRecordController::class);
     Route::resource('payroll', PayrollController::class);
