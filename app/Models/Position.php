@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Position extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['position_name'];
 
-    // Note: If you link Position to Employee via FK later, add hasMany here.
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'position_id');
+    }
 }

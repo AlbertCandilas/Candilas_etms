@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attendance_records', function (Blueprint $table) {
-            $table->id(); // attendance_id
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-            $table->date('date');
-            $table->time('time_in');
-            $table->time('time_out');
-            $table->string('status');
-            // verified_by references admin_id
+            $table->id(); 
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
+            $table->date('date')->nullable();
+            $table->time('time_in')->nullable();
+            $table->time('time_out')->nullable();
+            $table->foreignId('status_id')->nullable()->constrained('attendance_statuses')->onDelete('set null');
             $table->foreignId('verified_by')->nullable()->constrained('administrators')->onDelete('set null');
             $table->timestamps();
         });

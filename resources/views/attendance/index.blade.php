@@ -30,8 +30,12 @@
                             {{ \Carbon\Carbon::parse($record->date)->format('M d, Y') }}
                         </td>
                         <td class="px-4 py-4">
-                            <div class="font-semibold text-gray-800">{{ $record->employee->name }}</div>
-                            <div class="text-[10px] text-gray-400 uppercase">{{ $record->employee->position }}</div>
+                            <div class="font-semibold text-gray-800">
+                                {{ $record->first_name }} {{ $record->last_name }}
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase">
+                                {{ $record->position_name ?? 'N/A' }}
+                            </div>
                         </td>
                         <td class="px-4 py-4 font-mono text-xs">
                             <span class="text-green-600">{{ $record->time_in }}</span>
@@ -40,7 +44,9 @@
                         </td>
                         <td class="px-4 py-4">
                             @php
-                                $statusColor = match(strtolower($record->status)) {
+                                $statusName = $record->status_name ?? 'Unknown';
+                                
+                                $statusColor = match(strtolower($statusName)) {
                                     'present' => 'bg-green-100 text-green-700',
                                     'late' => 'bg-yellow-100 text-yellow-700',
                                     'absent' => 'bg-red-100 text-red-700',
@@ -48,11 +54,11 @@
                                 };
                             @endphp
                             <span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase {{ $statusColor }}">
-                                {{ $record->status }}
+                                {{ $statusName }}
                             </span>
                         </td>
                         <td class="px-4 py-4 text-gray-500">
-                            {{ $record->admin->name ?? 'System Auto' }}
+                            {{ $record->verified_by_name }}
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex justify-center items-center gap-3">

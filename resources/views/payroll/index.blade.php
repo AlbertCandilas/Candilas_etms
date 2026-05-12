@@ -27,8 +27,13 @@
                 @forelse($payrolls as $payroll)
                     <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                         <td class="px-4 py-4">
-                            <div class="font-semibold text-gray-800">{{ $payroll->employee->name }}</div>
-                            <div class="text-[10px] text-gray-400 uppercase tracking-wider">{{ $payroll->employee->position }}</div>
+                            {{-- Using the combined name from the view --}}
+                            <div class="font-semibold text-gray-800">
+                                {{ $payroll->employee_name }}
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider">
+                                Staff ID #{{ $payroll->payroll_id }}
+                            </div>
                         </td>
                         <td class="px-4 py-4 text-gray-500 italic">
                             {{ \Carbon\Carbon::parse($payroll->payroll_date)->format('M d, Y') }}
@@ -47,11 +52,12 @@
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex justify-center items-center gap-3">
-                                <a href="{{ route('payroll.edit', $payroll->id) }}" class="text-blue-500 hover:text-blue-700 transition-colors" title="Edit">
+                                {{-- Using payroll_id from view for actions --}}
+                                <a href="{{ route('payroll.edit', $payroll->payroll_id) }}" class="text-blue-500 hover:text-blue-700 transition-colors" title="Edit">
                                     <i class="bi bi-pencil-square text-lg"></i>
                                 </a>
 
-                                <form action="{{ route('payroll.destroy', $payroll->id) }}" method="POST" onsubmit="return confirm('Remove this payroll record?');" class="inline">
+                                <form action="{{ route('payroll.destroy', $payroll->payroll_id) }}" method="POST" onsubmit="return confirm('Remove this payroll record?');" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-500 hover:text-red-700 transition-colors" title="Delete">

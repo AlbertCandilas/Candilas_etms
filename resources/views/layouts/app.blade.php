@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Management System - City Government of Davao</title>
+    <title>Time Management System - Company X</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -22,8 +22,8 @@
                     <i class="bi bi-building text-2xl"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold leading-tight text-sm">City Government</h1>
-                    <p class="text-[10px] opacity-80">of Davao</p>
+                    <h1 class="font-bold leading-tight text-sm">Company X</h1>
+                    <p class="text-[10px] opacity-80">Enterprise Portal</p>
                     <p class="text-[10px] font-medium mt-1">Time Management</p>
                 </div>
             </div>
@@ -56,16 +56,16 @@
                 </a>
             </nav>
 
-            <div class="p-4 bg-black/10">
+            <div class="p-4 bg-black/10 border-t border-white/5">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-black text-xs font-bold">
-                        {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
+                    <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center text-white text-xs font-bold border border-white/10">
+                        {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
                     </div>
-                    <div class="overflow-hidden">
+                    <div class="overflow-hidden flex-1">
                         <p class="text-xs font-bold truncate">{{ Auth::user()->name ?? 'Admin User' }}</p>
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" class="m-0">
                             @csrf
-                            <button class="text-[10px] text-white/60 hover:text-white">Sign Out</button>
+                            <button type="submit" class="text-[10px] text-white/60 hover:text-white transition-colors">Sign Out</button>
                         </form>
                     </div>
                 </div>

@@ -17,7 +17,10 @@
         
         {{-- Employee Info Header --}}
         <div class="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <p class="text-sm font-semibold text-gray-700">Editing Payroll for: {{ $payroll->employee->name }}</p>
+            {{-- Updated to reflect split name fields --}}
+            <p class="text-sm font-semibold text-gray-700">
+                Editing Payroll for: {{ $payroll->employee->first_name }} {{ $payroll->employee->last_name }}
+            </p>
             <p class="text-xs text-gray-500">Current Net Salary: ₱{{ number_format($payroll->net_salary, 2) }}</p>
         </div>
 
@@ -27,14 +30,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Total Regular Hours</label>
-                <input type="number" step="0.01" name="total_hours" value="{{ $payroll->total_hours }}" required 
+                <input type="number" step="0.01" name="total_hours" value="{{ old('total_hours', $payroll->total_hours) }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                @error('total_hours') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Overtime Hours</label>
-                <input type="number" step="0.01" name="overtime_hours" value="{{ $payroll->overtime_hours }}" required 
+                <input type="number" step="0.01" name="overtime_hours" value="{{ old('overtime_hours', $payroll->overtime_hours) }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                @error('overtime_hours') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
         </div>
 
@@ -42,14 +47,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Deductions (₱)</label>
-                <input type="number" step="0.01" name="deductions" value="{{ $payroll->deductions }}" required 
+                <input type="number" step="0.01" name="deductions" value="{{ old('deductions', $payroll->deductions) }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                @error('deductions') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Payroll Date</label>
-                <input type="date" name="payroll_date" value="{{ $payroll->payroll_date }}" required 
+                <input type="date" name="payroll_date" value="{{ old('payroll_date', $payroll->payroll_date) }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                @error('payroll_date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
         </div>
 

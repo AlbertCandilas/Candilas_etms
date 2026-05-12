@@ -4,67 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Department;
+use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the employees.
-     */
     public function index() {
-        $employees = Employee::with('department')->get();
+        $employees = DB::table('view_employee_details')->get();
+        
         return view('employees.index', compact('employees'));
     }
 
-    /**
-     * Show the form for creating a new employee.
-     */
     public function create() {
-        $departments = Department::all(); // For the dropdown
-        return view('employees.create', compact('departments'));
+        $departments = Department::all();
+        $positions = Position::all();
+        return view('employees.create', compact('departments', 'positions'));
     }
 
-    /**
-     * Store a newly created employee in the database.
-     */
     public function store(Request $request) {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'position' => 'required|string',
-            'department_id' => 'required|exists:departments,id',
+            'first_name' => 'required|string|max:50',
+            'middle_name' => 'nullable|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'email' => 'nullable|email|unique:employees,email',
+            'password' => 'nullable|string|min:6',
+            'position_id' => 'nullable|exists:positions,id',
+            'department_id' => 'nullable|exists:departments,id',
         ]);
+
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        }
+
         Employee::create($data);
         return redirect()->route('employees.index')->with('success', 'Employee added successfully.');
     }
 
-    /**
-     * Show the form for editing the specified employee.
-     */
     public function edit(Employee $employee) {
         $departments = Department::all();
-        return view('employees.edit', compact('employee', 'departments'));
+        $positions = Position::all();
+        return view('employees.edit', compact('employee', 'departments', 'positions'));
     }
 
-    /**
-     * Update the specified employee in the database.
-     */
     public function update(Request $request, Employee $employee) {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'position' => 'required|string',
-            'department_id' => 'required|exists:departments,id',
+            'first_name' => 'required|string|max:50',
+            'middle_name' => 'nullable|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'email' => 'nullable|email|unique:employees,email,' . $employee->id,
+            'password' => 'nullable|string|min:6',
+            'position_id' => 'nullable|exists:positions,id',
+            'department_id' => 'nullable|exists:departments,id',
         ]);
+
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
 
         $employee->update($data);
         return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
     }
 
-    /**
-     * Remove the specified employee from the database.
-     */
     public function destroy(Employee $employee) {
-        // Because of onDelete('cascade') in your migration, 
-        // related payrolls/attendance will be handled by the DB.
         $employee->delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }

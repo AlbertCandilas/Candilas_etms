@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('administrators', function (Blueprint $table) {
-            $table->id(); // admin_id
-            $table->string('name');
-            $table->string('role');
+            $table->id(); 
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
+            $table->string('role', 50)->nullable();
             $table->timestamps();
         });
     }

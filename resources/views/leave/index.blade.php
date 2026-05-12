@@ -26,11 +26,17 @@
                 @forelse($leaves as $leave)
                     <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                         <td class="px-4 py-4">
-                            <div class="font-semibold text-gray-800">{{ $leave->employee->name }}</div>
-                            <div class="text-[10px] text-gray-400 uppercase">{{ $leave->employee->position }}</div>
+                            {{-- Data provided by SQL View JOIN --}}
+                            <div class="font-semibold text-gray-800">
+                                {{ $leave->first_name }} {{ $leave->last_name }}
+                            </div>
+                            <div class="text-[10px] text-gray-400 uppercase">
+                                {{ $leave->position_name ?? 'N/A' }}
+                            </div>
                         </td>
                         <td class="px-4 py-4">
-                            <span class="text-gray-700 font-medium">{{ $leave->leave_type }}</span>
+                            {{-- Field alias from SQL View --}}
+                            <span class="text-gray-700 font-medium">{{ $leave->leave_type_name }}</span>
                         </td>
                         <td class="px-4 py-4">
                             <div class="text-gray-800 font-medium">
@@ -38,7 +44,8 @@
                                 {{ \Carbon\Carbon::parse($leave->end_date)->format('M d, Y') }}
                             </div>
                             <div class="text-[10px] text-blue-500 font-bold">
-                                {{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} Day(s)
+                                {{-- Using the pre-calculated DATEDIFF from the view --}}
+                                {{ $leave->total_days }} Day(s)
                             </div>
                         </td>
                         <td class="px-4 py-4">

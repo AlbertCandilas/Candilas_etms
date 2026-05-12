@@ -19,39 +19,47 @@
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
                 <option value="" disabled selected>Choose an employee...</option>
                 @foreach($employees as $emp)
-                    <option value="{{ $emp->id }}">{{ $emp->name }} ({{ $emp->position }})</option>
+                    {{-- Updated to handle split names and position relationship --}}
+                    <option value="{{ $emp->id }}">
+                        {{ $emp->first_name }} {{ $emp->last_name }} ({{ $emp->position->position_name ?? 'N/A' }})
+                    </option>
                 @endforeach
             </select>
+            @error('employee_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Total Regular Hours</label>
-                <input type="number" step="0.01" name="total_hours" required 
+                <input type="number" step="0.01" name="total_hours" value="{{ old('total_hours') }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
                     placeholder="0.00">
+                @error('total_hours') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Overtime Hours</label>
-                <input type="number" step="0.01" name="overtime_hours" required 
+                <input type="number" step="0.01" name="overtime_hours" value="{{ old('overtime_hours') }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
                     placeholder="0.00">
+                @error('overtime_hours') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Deductions (₱)</label>
-                <input type="number" step="0.01" name="deductions" required 
+                <input type="number" step="0.01" name="deductions" value="{{ old('deductions') }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"
                     placeholder="0.00">
+                @error('deductions') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Payroll Date</label>
-                <input type="date" name="payroll_date" value="{{ date('Y-m-d') }}" required 
+                <input type="date" name="payroll_date" value="{{ old('payroll_date', date('Y-m-d')) }}" required 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                @error('payroll_date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
         </div>
 

@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id(); 
-            $table->string('name');
-            $table->string('position'); 
-            $table->foreignId('department_id')->constrained()->onDelete('cascade');
+            $table->string('first_name', 50);
+            $table->string('middle_name', 50)->nullable();
+            $table->string('last_name', 50);
+            $table->string('email', 100)->nullable()->unique();
+            $table->string('password', 100)->nullable();
+            $table->foreignId('position_id')->nullable()->constrained('positions')->onDelete('set null');
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
             $table->timestamps();
         });
     }

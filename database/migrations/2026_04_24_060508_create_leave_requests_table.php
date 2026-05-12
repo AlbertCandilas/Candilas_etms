@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('leave_requests', function (Blueprint $table) {
-            $table->id(); // leave_id
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-            $table->string('leave_type'); 
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->string('status');
+            $table->id(); 
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
+            $table->foreignId('leave_type_id')->nullable()->constrained('leave_types')->onDelete('set null');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->string('status', 20)->nullable();
             $table->timestamps();
         });
     }
